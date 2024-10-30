@@ -25,7 +25,7 @@ public class ChuyenManHinhController {
     }
 
     public void setView(JPanel jpnItem, JLabel jlbItem) {
-        kindSelected = "TrangBanHang";
+        kindSelected = "SanPham";
         jlbItem.setBackground(new Color(255, 102, 0));
         jpnItem.setBackground(new Color(255, 102, 0));
         root.removeAll();

@@ -1,8 +1,13 @@
 package baocaojava;
 
 import controller.SanPhamController;
+import java.awt.Dimension;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import model.sanpham;
 
 /**
  *
@@ -13,6 +18,7 @@ public class ItemSua extends javax.swing.JPanel {
     private QuanLySanPhamJpanel parentPanel;
     SanPhamController sanPhamController;
     public static String maspstatic;
+    public String duongDanAnh = "D:\\hdt\\baocaojava\\src\\picture\\images.png";
 
     /**
      * Creates new form ItemSua
@@ -20,12 +26,36 @@ public class ItemSua extends javax.swing.JPanel {
     public ItemSua(QuanLySanPhamJpanel parentPanel) {
         initComponents();
         this.parentPanel = parentPanel;
+        sanPhamController = new SanPhamController();
+        jLabel1.setPreferredSize(new Dimension(226, 181)); // Kích thước 226x181
+        // Gọi revalidate và repaint để cập nhật giao diện
+        this.revalidate();
+        this.repaint();
+
         // Thêm listener cho panel
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 onItemClick();
             }
         });
+    }
+
+    private void setProductImage(String imagePath) {
+        // Tạo ImageIcon từ đường dẫn
+        ImageIcon icon = new ImageIcon(imagePath);
+
+        // Lấy kích thước của jLabel1
+        int width = jLabel1.getWidth();
+        int height = jLabel1.getHeight();
+
+        // Kiểm tra kích thước trước khi gọi getScaledInstance
+        if (width > 0 && height > 0) {
+            Image image = icon.getImage(); // Lấy hình ảnh từ icon
+            Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH); // Thay đổi kích thước
+            jLabel1.setIcon(new ImageIcon(scaledImage)); // Thiết lập icon cho jLabel1
+        } else {
+            System.out.println("Kích thước JLabel không hợp lệ: " + width + "x" + height);
+        }
     }
 
     private void onItemClick() {
@@ -71,10 +101,21 @@ public class ItemSua extends javax.swing.JPanel {
         return donGiaJlable;
     }
 
-    public String setMaSP(String masp) {
-        return maspstatic = masp;
+    public void setDuongDanAnh(String duongdananh) {
+        duongDanAnh = duongdananh;
+        SwingUtilities.invokeLater(() -> {
+            setProductImage(duongDanAnh);
+        });
     }
-    public String getMaSP(){
+
+    public void setMaSP(String masp) {
+        maspstatic = masp;
+        // Lấy đường dẫn ảnh từ SanPhamController dựa trên mã sản phẩm
+        // Thiết lập hình ảnh sau khi có đường dẫn ảnh
+
+    }
+
+    public String getMaSP() {
         return maspstatic;
     }
 

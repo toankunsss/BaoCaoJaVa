@@ -35,6 +35,7 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
     ChiTieuPhieumodel chiTietPhieumodel;
     HoaDonDAO hoaDonDAO;
     JPanel sanPhamPanel;
+    private ArrayList<ItemSua> itemList = new ArrayList<>();
 
     /**
      * Creates new form QuanLySanPhamJpanel
@@ -42,7 +43,7 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
     public QuanLySanPhamJpanel() {
         initComponents();
         hoaDonDAO = new HoaDonDAO();
-        sanPhamPanel=new JPanel();
+        sanPhamPanel = new JPanel();
         chiTietPhieuNhapDAO = new ChiTietPhieuNhapDAO();
         chiTietPhieumodel = new ChiTieuPhieumodel();
         sanPhamController = new SanPhamController();
@@ -83,7 +84,6 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         hoaDonTable = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -108,7 +108,6 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Giỏ hàng"));
 
@@ -211,8 +210,6 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách sản phẩm"));
         jScrollPane1.setViewportView(jTextField1);
-
-        jButton1.setText("Tìm kiếm");
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Tạo hóa đơn"));
 
@@ -418,8 +415,6 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton9.setText("làm mới");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -428,12 +423,6 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(409, 409, 409)
-                        .addComponent(jButton1)
-                        .addGap(36, 36, 36)
-                        .addComponent(jButton9)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -454,10 +443,6 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -599,22 +584,26 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "thanh toán thành công");
 
     }//GEN-LAST:event_jButton3ActionPerformed
-    private void hienThiSanPham() {
+// Assuming you have a method that creates ItemSua instances
+
+    public void hienThiSanPham() {
         ArrayList<sanpham> sanPhamList = sanPhamController.selectAll();
         sanPhamPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 0));
 
         for (sanpham sanPham : sanPhamList) {
             ItemSua item = new ItemSua(this);
+            item.setMaSP(sanPham.getMaSua()); // Set the product ID
             item.getTenSuaJlabel().setText(sanPham.getTenSua());
             item.getSoLuongJlable().setText("Số lượng: " + sanPham.getSoLuong());
             item.getDonGiaJlable().setText("Đơn giá: " + sanPham.getDonGia());
-            item.setMaSP(sanPham.getMaSua());
+            item.setDuongDanAnh(sanPham.getAnh());
+            // Set the icon based on the product ID
             sanPhamPanel.add(item);
         }
-
-        // Tạo JScrollPane cho sanPhamPanel với chiều ngang
+        sanPhamPanel.revalidate(); // Cập nhật layout
+        sanPhamPanel.repaint();// Create JScrollPane for sanPhamPanel with horizontal scrolling
         JScrollPane scrollPane = new JScrollPane(sanPhamPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane1.setViewportView(scrollPane); // Đưa JScrollPane vào ScrollPane chính
+        jScrollPane1.setViewportView(scrollPane); // Add JScrollPane to the main JScrollPane
     }
 
     public void addProductToCart(String productName, int quantity, double price, String masp) {
@@ -691,14 +680,12 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
     private javax.swing.JTextField diemKhTextField;
     private javax.swing.JTable gioHangTable;
     private javax.swing.JTable hoaDonTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

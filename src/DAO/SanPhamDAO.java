@@ -189,12 +189,12 @@ public class SanPhamDAO implements DAOinterface<sanpham> {
         }
         return tenNCCList;
     }
-        public String getTenSuaByMa(String maSua) {
+
+    public String getTenSuaByMa(String maSua) {
         String tenSua = "";
         // Kết nối với cơ sở dữ liệu và thực hiện truy vấn
         String query = "SELECT TenSua FROM sua WHERE MaSua = ?";
-        try (Connection conn = JDBCconnect.getConnection(); 
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (Connection conn = JDBCconnect.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, maSua);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

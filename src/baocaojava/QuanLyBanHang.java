@@ -20,9 +20,14 @@ public class QuanLyBanHang extends javax.swing.JFrame {
         initComponents();
         setTitle("Quản lý bán sữa Hà lan MIlk");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        nhanVienJLabel.setText("Nhân viên:"+Login.crurrentNhanVienmodel.getTen());
-        vaiTrojLabel.setText("Vai trò:"+crurrentNhanVienmodel.getChucVu());
-        
+        if (Login.crurrentNhanVienmodel==null) {
+            nhanVienJLabel.setText("Nhân viên");
+            vaiTrojLabel.setText("Vai trò");
+        } else {
+            nhanVienJLabel.setText("Nhân viên:" + Login.crurrentNhanVienmodel.getTen());
+            vaiTrojLabel.setText("Vai trò:" + Login.crurrentNhanVienmodel.getChucVu());
+        }
+
         ChuyenManHinhController controllerCH = new ChuyenManHinhController(jpnView);
         controllerCH.setView(jpnBanHang, jlbBanHang);
         List<DanhMuc> listItem = new ArrayList<>();
@@ -65,7 +70,6 @@ public class QuanLyBanHang extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 51));
-        setPreferredSize(new java.awt.Dimension(1785, 672));
 
         jpnDanhMuc.setBackground(new java.awt.Color(255, 204, 102));
 
@@ -126,7 +130,7 @@ public class QuanLyBanHang extends javax.swing.JFrame {
         jlbKhuyenMai.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         jlbKhuyenMai.setForeground(new java.awt.Color(0, 0, 0));
         jlbKhuyenMai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jlbKhuyenMai.setText("KHUYẾN MÃI");
+        jlbKhuyenMai.setText("PHIẾU NHẬP");
 
         javax.swing.GroupLayout jpnKhuyenMaiLayout = new javax.swing.GroupLayout(jpnKhuyenMai);
         jpnKhuyenMai.setLayout(jpnKhuyenMaiLayout);
