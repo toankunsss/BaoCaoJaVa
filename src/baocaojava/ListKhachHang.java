@@ -410,7 +410,6 @@ public class ListKhachHang extends javax.swing.JPanel {
         khachHangmodel.setSoDt(Integer.parseInt(soDt));
         khachHangmodel.setTenKh(hotenTextField.getText());
         khachHangmodel.setTongChiTieu(Double.parseDouble(tongChiTieuTextField.getText()));
-//        khachHangmodel.setDiem(Integer.parseInt(diemTextField.getText()));
         String gioiTinh = "";
         if (namRadioButton.isSelected()) {
             gioiTinh += "Nam";

@@ -12,12 +12,11 @@ public class ItemSua extends javax.swing.JPanel {
 
     private QuanLySanPhamJpanel parentPanel;
     SanPhamController sanPhamController;
+    public static String maspstatic;
 
     /**
      * Creates new form ItemSua
      */
-
-
     public ItemSua(QuanLySanPhamJpanel parentPanel) {
         initComponents();
         this.parentPanel = parentPanel;
@@ -30,23 +29,34 @@ public class ItemSua extends javax.swing.JPanel {
     }
 
     private void onItemClick() {
-        // Hiển thị JOptionPane để người dùng nhập số lượng
         String input = JOptionPane.showInputDialog(this, "Nhập số lượng sản phẩm:", "Số lượng", JOptionPane.QUESTION_MESSAGE);
 
         if (input != null && !input.trim().isEmpty()) {
             try {
-                int quantity = Integer.parseInt(input); // Chuyển đổi số lượng từ chuỗi sang số nguyên
+                int quantity = Integer.parseInt(input);
+                int currentQuantity = Integer.parseInt(soLuongJlable.getText().replace("Số lượng: ", "").trim());
 
-                // Lấy thông tin sản phẩm
-                String productName = tenSuaJlabel.getText();
-                double price = Double.parseDouble(donGiaJlable.getText().replace("Đơn giá:", "").trim());
+                if (quantity <= currentQuantity) {
+                    String productName = tenSuaJlabel.getText();
+                    double price = Double.parseDouble(donGiaJlable.getText().replace("Đơn giá:", "").trim());
 
-                // Gọi phương thức để thêm sản phẩm vào giỏ hàng
-                parentPanel.addProductToCart(productName, quantity, price);
+                    // Gọi phương thức để thêm sản phẩm vào giỏ hàng
+                    parentPanel.addProductToCart(productName, quantity, price, maspstatic);
+
+                    // Cập nhật lại số lượng hiển thị
+                    int newQuantity = currentQuantity - quantity;
+                    updateQuantity(newQuantity);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Số lượng không đủ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    public void updateQuantity(int newQuantity) {
+        soLuongJlable.setText("Số lượng: " + newQuantity);
     }
 
     public JLabel getTenSuaJlabel() {
@@ -59,6 +69,13 @@ public class ItemSua extends javax.swing.JPanel {
 
     public JLabel getDonGiaJlable() {
         return donGiaJlable;
+    }
+
+    public String setMaSP(String masp) {
+        return maspstatic = masp;
+    }
+    public String getMaSP(){
+        return maspstatic;
     }
 
     /**

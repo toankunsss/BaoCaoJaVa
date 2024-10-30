@@ -11,7 +11,7 @@ public class KhachHangmodel {
     private int soDt;
     private double tongChiTieu;
     private String diaChi;
-    private int diem;
+    private double diem;
 
     public KhachHangmodel() {
     }
@@ -74,11 +74,11 @@ public class KhachHangmodel {
         this.diaChi = diaChi;
     }
 
-    public int getDiem() {
+    public double getDiem() {
         return diem;
     }
 
-    public void setDiem(int diem) {
+    public void setDiem(double diem) {
         this.diem = diem;
     }
     

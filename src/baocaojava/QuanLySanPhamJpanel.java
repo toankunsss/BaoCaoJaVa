@@ -1,6 +1,10 @@
 package baocaojava;
 
+import DAO.ChiTietPhieuNhapDAO;
+import DAO.HoaDonDAO;
+import controller.KhachHangController;
 import controller.SanPhamController;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -9,7 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import model.ChiTieuPhieumodel;
+import model.HoaDonmodel;
 import model.sanpham;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import model.KhachHangmodel;
 
 /**
  *
@@ -17,15 +27,24 @@ import model.sanpham;
  */
 public class QuanLySanPhamJpanel extends javax.swing.JPanel {
 
+    private HashMap<String, Integer> originalQuantities = new HashMap<>();
     SanPhamController sanPhamController;
     DefaultTableModel defaultTableModel;
     DefaultTableModel defaultTableModel1;
+    ChiTietPhieuNhapDAO chiTietPhieuNhapDAO;
+    ChiTieuPhieumodel chiTietPhieumodel;
+    HoaDonDAO hoaDonDAO;
+    JPanel sanPhamPanel;
 
     /**
      * Creates new form QuanLySanPhamJpanel
      */
     public QuanLySanPhamJpanel() {
         initComponents();
+        hoaDonDAO = new HoaDonDAO();
+        sanPhamPanel=new JPanel();
+        chiTietPhieuNhapDAO = new ChiTietPhieuNhapDAO();
+        chiTietPhieumodel = new ChiTieuPhieumodel();
         sanPhamController = new SanPhamController();
         defaultTableModel = new DefaultTableModel();
         gioHangTable.setModel(defaultTableModel);
@@ -41,6 +60,7 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         defaultTableModel1.addColumn("Tổng tiền");
         defaultTableModel1.addColumn("Ngày bán");
         hienThiSanPham();
+        loadHoaDonTable();
     }
 
     /**
@@ -56,8 +76,8 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         gioHangTable = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         hoaDonTable = new javax.swing.JTable();
@@ -67,19 +87,19 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        ngayTaolable = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        maKhTextField = new javax.swing.JTextField();
+        teKhTextField = new javax.swing.JTextField();
+        diemKhTextField = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        mahoadonJlable = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -112,12 +132,17 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
             }
         });
 
-        jButton5.setText("Tạo hóa đơn");
-
         jButton6.setText("Bỏ khỏi giỏ hàng");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Tạo hóa đơn");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -126,30 +151,30 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(269, 269, 269)
-                        .addComponent(jButton4)
-                        .addGap(25, 25, 25)
-                        .addComponent(jButton5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton6)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton6)
+                        .addComponent(jButton5))
+                    .addComponent(jButton4)))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách hóa đơn"));
@@ -180,8 +205,8 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách sản phẩm"));
@@ -195,7 +220,7 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
 
         jLabel1.setText("Mã nhân viên:");
 
-        jLabel2.setText("Ngày tạo");
+        ngayTaolable.setText("Ngày tạo");
 
         jLabel3.setText("Mã thành viên");
 
@@ -203,23 +228,42 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
 
         jLabel5.setText("Điểm thành viên:");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        diemKhTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                diemKhTextFieldActionPerformed(evt);
             }
         });
 
         jButton7.setText("Xác nhận");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Sử dụng");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
-        jLabel8.setText("jLabel8");
+        jLabel8.setText("111");
 
         jLabel9.setText("jLabel9");
 
         jLabel14.setText("Mã hóa đơn");
 
-        jLabel15.setText("mã hóa đơn");
+        mahoadonJlable.setText("mã hóa đơn");
+        mahoadonJlable.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                mahoadonJlableAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -232,25 +276,25 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(ngayTaolable))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(diemKhTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
-                    .addComponent(jTextField3)
                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14)
                         .addGap(27, 27, 27)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(mahoadonJlable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(maKhTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
+                    .addComponent(teKhTextField))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -261,26 +305,26 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jLabel8)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel15))
+                    .addComponent(mahoadonJlable))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(ngayTaolable)
                     .addComponent(jLabel9))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maKhTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(teKhTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(diemKhTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Chi tiết"));
@@ -337,6 +381,11 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         );
 
         jButton3.setText("Thanh toán");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -397,12 +446,12 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -412,33 +461,146 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    public void loadHoaDonTable() {
+        defaultTableModel1.setRowCount(0);
+        ArrayList<HoaDonmodel> hoaDonmodels = hoaDonDAO.getIntance().selectAll();
+        for (HoaDonmodel hoaDonmodel : hoaDonmodels) {
+            defaultTableModel1.addRow(new Object[]{
+                hoaDonmodel.getMaHD(),
+                hoaDonmodel.getMaNV(),
+                hoaDonmodel.getTongTien(),
+                hoaDonmodel.getNgayban()
+            });
+        }
+    }
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        int selectedRow = gioHangTable.getSelectedRow(); // Lấy hàng được chọn
-
-        // Kiểm tra xem có hàng nào được chọn không
+        int selectedRow = gioHangTable.getSelectedRow();
         if (selectedRow != -1) {
-            // Loại bỏ hàng khỏi mô hình
+            // Lấy mã sản phẩm và số lượng từ hàng được chọn trong giỏ hàng
+            String masp = gioHangTable.getValueAt(selectedRow, 0).toString();
+            int quantityInCart = Integer.parseInt(gioHangTable.getValueAt(selectedRow, 2).toString()); // Giả sử cột 2 là số lượng
+
+            // Xóa hàng khỏi giỏ hàng
             defaultTableModel.removeRow(selectedRow);
-            // Thực hiện các thao tác khác như cập nhật giỏ hàng nếu cần
+
+            // Tìm `ItemSua` tương ứng và cộng lại số lượng
+            for (Component comp : sanPhamPanel.getComponents()) {
+                if (comp instanceof ItemSua) {
+                    ItemSua item = (ItemSua) comp;
+                    if (item.getMaSP().equals(masp)) {
+                        // Lấy số lượng hiện tại trong `ItemSua` và cộng thêm số lượng vừa xóa khỏi giỏ
+                        int currentQuantity = Integer.parseInt(item.getSoLuongJlable().getText().replace("Số lượng: ", "").trim());
+                        int updatedQuantity = currentQuantity + quantityInCart;
+                        item.updateQuantity(updatedQuantity); // Cập nhật lại số lượng hiển thị trong `ItemSua`
+                        break;
+                    }
+                }
+            }
+
             JOptionPane.showMessageDialog(null, "Đã bỏ hàng khỏi giỏ!");
         } else {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để bỏ khỏi giỏ!");
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void diemKhTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diemKhTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_diemKhTextFieldActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         defaultTableModel.setRowCount(0);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void mahoadonJlableAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_mahoadonJlableAncestorAdded
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_mahoadonJlableAncestorAdded
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        mahoadonJlable.setText(CreatId());
+        // Lấy thời gian hiện tại
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        // Định dạng timestamp thành chuỗi
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(timestamp);
+
+        // Cập nhật jLabel9 với thời gian hiện tại
+        jLabel9.setText(currentTime);
+        jLabel10.setText(String.valueOf(calculateTotalPrice()) + "đ");
+        jLabel13.setText(String.valueOf(calculateTotalPrice()) + "đ");
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        if (maKhTextField.getText() == "") {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền mã khách hàng");
+        } else {
+            KhachHangController khachHangController = new KhachHangController();
+            KhachHangmodel khachHangmodel = khachHangController.selectById(maKhTextField.getText());
+            if (khachHangmodel == null) {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy nhân viên");
+
+            } else {
+                teKhTextField.setText(khachHangmodel.getTenKh());
+                diemKhTextField.setText(String.valueOf(khachHangmodel.getDiem()));
+            }
+        }
+
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        // Lấy tổng tiền thanh toán
+        // Lấy tổng tiền thanh toán
+        // Lấy tổng tiền thanh toán
+        double tienThanhToan = calculateTotalPrice();
+
+        // Lấy điểm giảm giá từ trường điểm khách hàng
+        double giamGia = Double.parseDouble(diemKhTextField.getText());
+        double diemSD = 0;
+        double diemconlai = 0;
+        double diemKh = Double.parseDouble(diemKhTextField.getText());
+        // Kiểm tra xem điểm giảm giá có lớn hơn tổng tiền thanh toán không
+        if (giamGia > tienThanhToan) {
+            diemSD = tienThanhToan;
+            // Nếu có, đặt tổng tiền thanh toán về 0
+            tienThanhToan = 0;
+            // Cập nhật điểm thành viên đã sử dụng
+            jLabel11.setText(String.valueOf(diemSD));
+            diemconlai = diemKh - diemSD;
+            diemKhTextField.setText(String.valueOf(diemconlai));
+
+        } else {
+            // Nếu không, tính toán tiền thanh toán sau khi giảm giá
+            diemKhTextField.setText(String.valueOf(diemconlai));
+            tienThanhToan -= giamGia;
+            jLabel11.setText(String.valueOf(giamGia) + "đ"); // Hiển thị giá trị giảm giá
+        }
+
+        // Cập nhật tổng tiền thanh toán
+        jLabel13.setText(String.valueOf(tienThanhToan) + "đ");
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        HoaDonmodel hoaDonmodel = new HoaDonmodel();
+        hoaDonmodel.setMaHD(mahoadonJlable.getText());
+        hoaDonmodel.setMaKh(maKhTextField.getText());
+        hoaDonmodel.setNgayban(Timestamp.valueOf(jLabel9.getText()));
+        hoaDonmodel.setMaNV(jLabel8.getText());
+        String cleaString = jLabel13.getText().replaceAll("[^0-9.]", "");
+        hoaDonmodel.setTongTien(Double.parseDouble(cleaString));
+        hoaDonDAO.getIntance().them(hoaDonmodel);
+        JOptionPane.showMessageDialog(this, "thanh toán thành công");
+
+    }//GEN-LAST:event_jButton3ActionPerformed
     private void hienThiSanPham() {
         ArrayList<sanpham> sanPhamList = sanPhamController.selectAll();
-        JPanel sanPhamPanel = new JPanel();
         sanPhamPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 0));
 
         for (sanpham sanPham : sanPhamList) {
@@ -446,7 +608,7 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
             item.getTenSuaJlabel().setText(sanPham.getTenSua());
             item.getSoLuongJlable().setText("Số lượng: " + sanPham.getSoLuong());
             item.getDonGiaJlable().setText("Đơn giá: " + sanPham.getDonGia());
-
+            item.setMaSP(sanPham.getMaSua());
             sanPhamPanel.add(item);
         }
 
@@ -455,12 +617,12 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(scrollPane); // Đưa JScrollPane vào ScrollPane chính
     }
 
-    public void addProductToCart(String productName, int quantity, double price) {
+    public void addProductToCart(String productName, int quantity, double price, String masp) {
         double totalPrice = quantity * price; // Tính toán thành tiền
 
         // Thêm vào bảng
         defaultTableModel.addRow(new Object[]{
-            "Mã sản phẩm", // Thay bằng mã sản phẩm thực tế nếu có
+            masp, // Thay bằng mã sản phẩm thực tế nếu có
             productName,
             quantity,
             price,
@@ -487,7 +649,46 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
         });
     }
 
+    public String CreatId() {
+        ArrayList<HoaDonmodel> arr = hoaDonDAO.getIntance().selectAll();
+        String check = "";
+        int id = arr.size() + 1;
+        if (arr != null) {
+            for (HoaDonmodel nhanVienmodel : arr) {
+                if (nhanVienmodel.getMaHD().equals("HD" + id)) {
+                    check = nhanVienmodel.getMaHD();
+                }
+            }
+            while (check.length() != 0) {
+                id++;
+                for (int i = 0; i <= arr.size(); i++) {
+                    if (arr.get(i).getMaHD().equals("HD" + id)) {
+                        check = arr.get(i).getMaHD();
+                    } else {
+                        check = "";
+                    }
+                }
+            }
+            return "HD" + id;
+        } else {
+            return "HD" + 1;
+        }
+    }
+
+    private double calculateTotalPrice() {
+        double totalPrice = 0.0;
+
+        // Lặp qua từng hàng trong bảng giỏ hàng
+        for (int i = 0; i < gioHangTable.getRowCount(); i++) {
+            // Giả sử cột thành tiền là cột thứ 4 (index 4)
+            double itemTotalPrice = (double) gioHangTable.getValueAt(i, 4);
+            totalPrice += itemTotalPrice; // Cộng dồn thành tiền
+        }
+
+        return totalPrice; // Trả về tổng tiền
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField diemKhTextField;
     private javax.swing.JTable gioHangTable;
     private javax.swing.JTable hoaDonTable;
     private javax.swing.JButton jButton1;
@@ -504,8 +705,6 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -522,8 +721,9 @@ public class QuanLySanPhamJpanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField maKhTextField;
+    private javax.swing.JLabel mahoadonJlable;
+    private javax.swing.JLabel ngayTaolable;
+    private javax.swing.JTextField teKhTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -40,7 +40,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
             pst.setString(4, t.getDiaChi());
             pst.setInt(5, t.getSoDt());
             pst.setDouble(6, t.getTongChiTieu());
-            pst.setInt(7, 1);
+            pst.setDouble(7, 1);
 
             ketQua = pst.executeUpdate();
             System.out.println("Bạn đã thực thi: " + sql);
@@ -62,7 +62,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
             pst.setString(3, t.getDiaChi());
             pst.setInt(4, t.getSoDt());
             pst.setDouble(5, t.getTongChiTieu());
-            pst.setInt(6, 1);
+            pst.setDouble(6, 1);
             pst.setString(7, t.getMaKh());  // Fixed index from 7 to 8
 
             ketQua = pst.executeUpdate();
@@ -107,7 +107,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
                 kh.setDiaChi(rs.getString("DiaChi"));
                 kh.setSoDt(rs.getInt("SoDT"));
                 kh.setTongChiTieu(rs.getDouble("TongChiTieu")); // Ensure this method exists in KhachHangmodel
-                kh.setDiem(rs.getInt("Diem")); // Ensure this method exists in KhachHangmodel
+                kh.setDiem(rs.getDouble("Diem")); // Ensure this method exists in KhachHangmodel
                 listKhachHang.add(kh);
             }
         } catch (SQLException ex) {
@@ -133,7 +133,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
                 kh.setDiaChi(rs.getString("DiaChi"));
                 kh.setSoDt(rs.getInt("SoDT"));
                 kh.setTongChiTieu(rs.getDouble("TongChiTieu")); // Ensure this method exists in KhachHangmodel
-                kh.setDiem(rs.getInt("Diem")); // Ensure this method exists in KhachHangmodel
+                kh.setDiem(rs.getDouble("Diem")); // Ensure this method exists in KhachHangmodel
                 return kh;
             }
         } catch (SQLException ex) {
@@ -158,7 +158,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
                 kh.setDiaChi(rs.getString("DiaChi"));
                 kh.setSoDt(rs.getInt("SoDT"));
                 kh.setTongChiTieu(rs.getDouble("TongChiTieu")); 
-                kh.setDiem(rs.getInt("Diem")); 
+                kh.setDiem(rs.getDouble("Diem")); 
                 listKhachHang.add(kh);
             }
         } catch (SQLException ex) {
