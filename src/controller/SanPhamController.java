@@ -2,7 +2,6 @@ package controller;
 
 import DAO.SanPhamDAO;
 import java.util.ArrayList;
-import model.NhaCungCap;
 import model.sanpham;
 
 /**
@@ -58,6 +57,12 @@ public class SanPhamController {
     public String GetTenSuaById(String maSua) {
         return sanPhamDAO.getTenSuaByMa(maSua);
     }
+    public int getSoLuongSP(){
+        return  sanPhamDAO.laySoLuongSanPham();
+    }
+    public SanPhamController(SanPhamDAO sanPhamDAO) {
+        this.sanPhamDAO = sanPhamDAO;
+    }
 
     public String GetDuongDanAnh(String maSua) {
         sanpham sp = sanPhamDAO.selectById(maSua);
@@ -67,5 +72,8 @@ public class SanPhamController {
             System.out.println("San pham not found with id: " + maSua);
             return null;
         }
+    }
+    public int SoLuongDaBan(String masp){
+        return sanPhamDAO.getSoldQuantity(masp);
     }
 }

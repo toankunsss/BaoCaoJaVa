@@ -2,8 +2,10 @@ package controller;
 
 import baocaojava.ListKhachHang;
 import baocaojava.ListNhanVienJPanel;
+import baocaojava.QuanLyPhieu;
+import baocaojava.QuanLySanPham;
 import baocaojava.QuanLySanPhamJpanel;
-import baocaojava.SanPhamJPanel;
+import baocaojava.ThongKeJpane;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -36,6 +38,40 @@ public class ChuyenManHinhController {
 
     }
 
+    public void setViewMenu(String kind, JPanel jpnItem, JLabel jlbItem) {
+        JPanel node;
+        switch (kind) {
+            case "BanHang":
+                node = new QuanLySanPhamJpanel();
+                break;
+            case "SanPham":
+                node = new QuanLySanPham();
+                break;
+            case "NhanVien":
+                node = new ListNhanVienJPanel();
+                break;
+            case "KhachHang":
+                node = new ListKhachHang();
+                break;
+            case "PhieuNhap":
+                node = new QuanLyPhieu();
+                break;
+            case "ThongKe":
+                node = new ThongKeJpane();
+                break;
+            default:
+                node = new QuanLySanPhamJpanel();
+                break;
+        }
+        root.removeAll();
+        root.setLayout(new BorderLayout());
+        root.add(node, BorderLayout.CENTER); // Đảm bảo rằng JPanel được thêm vào CENTER của BorderLayout
+        root.revalidate(); // Đảm bảo bố cục được cập nhật lại hoàn toàn
+        root.repaint();
+        setChangeBackground();
+
+    }
+
     public void setEvent(List<DanhMuc> listItem) {
         this.lisItem = listItem;
         for (DanhMuc item : listItem) {
@@ -63,13 +99,19 @@ public class ChuyenManHinhController {
                     node = new QuanLySanPhamJpanel();
                     break;
                 case "SanPham":
-                    node = new SanPhamJPanel();
+                    node = new QuanLySanPham();
                     break;
                 case "NhanVien":
                     node = new ListNhanVienJPanel();
                     break;
                 case "KhachHang":
-                    node=new ListKhachHang();
+                    node = new ListKhachHang();
+                    break;
+                case "PhieuNhap":
+                    node = new QuanLyPhieu();
+                    break;
+                case "ThongKe":
+                    node = new ThongKeJpane();
                     break;
                 default:
                     node = new QuanLySanPhamJpanel();
@@ -80,14 +122,9 @@ public class ChuyenManHinhController {
             root.add(node, BorderLayout.CENTER); // Đảm bảo rằng JPanel được thêm vào CENTER của BorderLayout
             root.revalidate(); // Đảm bảo bố cục được cập nhật lại hoàn toàn
             root.repaint();
-            setChangeBackground(kind);
+            setChangeBackground();
         }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-            kindSelected = kind;
-            setChangeBackground(kind);
-        }
 
         @Override
         public void mouseReleased(MouseEvent e) {
@@ -96,32 +133,41 @@ public class ChuyenManHinhController {
         @Override
         public void mouseEntered(MouseEvent e) {
             kindHovered = kind;
-            setChangeBackground(kind);
+            System.out.println("Hovered: " + kindHovered);
+            setChangeBackground();
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            kindHovered = ""; // Reset the hovered item when the mouse exits
-            setChangeBackground(kind);
+            kindHovered = "";
+            System.out.println("Exited: " + kindHovered);
+            setChangeBackground();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            kindSelected = kind;
+            System.out.println("Selected: " + kindSelected);
+            setChangeBackground();
         }
     }
 
-    private void setChangeBackground(String kind) {
+    private void setChangeBackground() {
         for (DanhMuc item : lisItem) {
             if (item.getKind().equalsIgnoreCase(kindSelected)) {
-                // Highlight the selected item
+                // Làm nổi bật mục đã chọn
                 item.getJlb().setBackground(new Color(255, 102, 0));
                 item.getJpn().setBackground(new Color(255, 102, 0));
             } else if (item.getKind().equalsIgnoreCase(kindHovered)) {
-                // Highlight the hovered item3
-
+                // Làm nổi bật mục đang bị di chuột
                 item.getJlb().setBackground(new Color(255, 153, 51));
                 item.getJpn().setBackground(new Color(255, 153, 51));
             } else {
-                // Reset the color of other items
+                // Đặt lại màu sắc cho các mục khác
                 item.getJlb().setBackground(new Color(255, 204, 51));
                 item.getJpn().setBackground(new Color(255, 204, 51));
             }
         }
     }
+
 }

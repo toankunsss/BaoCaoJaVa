@@ -1,5 +1,6 @@
 package baocaojava;
 
+import controller.MaHoa;
 import controller.NhanVienController;
 import java.awt.Image;
 import java.io.File;
@@ -530,7 +531,8 @@ public class ListNhanVienJPanel extends javax.swing.JPanel {
         nhanVienmodel.setChucVu(chucVu);
         nhanVienmodel.setDiaChi(diaChiTextField.getText());
         nhanVienmodel.setSoDt(Integer.parseInt(soDt));
-        nhanVienmodel.setMatKhau(matKhauTextField.getText());
+        String passWord=matKhauTextField.getText();
+        nhanVienmodel.setMatKhau(MaHoa.toSHAL(passWord));
         nhanVienmodel.setTen(hotenTextField.getText());
 
         // Đường dẫn hình ảnh

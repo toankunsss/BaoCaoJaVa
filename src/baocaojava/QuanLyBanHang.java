@@ -1,6 +1,5 @@
 package baocaojava;
 
-import static baocaojava.Login.crurrentNhanVienmodel;
 import controller.ChuyenManHinhController;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +12,16 @@ import model.DanhMuc;
  */
 public class QuanLyBanHang extends javax.swing.JFrame {
 
-    /**
-     * Creates new form QuanLyBanHang
-     */
+    ChuyenManHinhController controllerCH; 
+            /**
+             * Creates new form QuanLyBanHang
+             */
+
     public QuanLyBanHang() {
         initComponents();
         setTitle("Quản lý bán sữa Hà lan MIlk");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        if (Login.crurrentNhanVienmodel==null) {
+        if (Login.crurrentNhanVienmodel == null) {
             nhanVienJLabel.setText("Nhân viên");
             vaiTrojLabel.setText("Vai trò");
         } else {
@@ -28,12 +29,12 @@ public class QuanLyBanHang extends javax.swing.JFrame {
             vaiTrojLabel.setText("Vai trò:" + Login.crurrentNhanVienmodel.getChucVu());
         }
 
-        ChuyenManHinhController controllerCH = new ChuyenManHinhController(jpnView);
+        controllerCH = new ChuyenManHinhController(jpnView);
         controllerCH.setView(jpnBanHang, jlbBanHang);
         List<DanhMuc> listItem = new ArrayList<>();
         listItem.add(new DanhMuc("BanHang", jpnBanHang, jlbBanHang));
         listItem.add(new DanhMuc("SanPham", jpnSanPham, jlbSanPham));
-        listItem.add(new DanhMuc("KhuyenMai", jpnKhuyenMai, jlbKhuyenMai));
+        listItem.add(new DanhMuc("PhieuNhap", jpnKhuyenMai, jlbKhuyenMai));
         listItem.add(new DanhMuc("KhachHang", jpnKhachHang, jlbKhachHang));
         listItem.add(new DanhMuc("ThongKe", jpnThongKe, jlbThongKe));
         listItem.add(new DanhMuc("NhanVien", jpnNhanVien, jlbNhanVien));
@@ -49,6 +50,7 @@ public class QuanLyBanHang extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
         jpnDanhMuc = new javax.swing.JPanel();
         jpnMenu = new javax.swing.JPanel();
         nhanVienJLabel = new javax.swing.JLabel();
@@ -67,6 +69,14 @@ public class QuanLyBanHang extends javax.swing.JFrame {
         jpnNhanVien = new javax.swing.JPanel();
         jlbNhanVien = new javax.swing.JLabel();
         jpnView = new javax.swing.JPanel();
+        jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+
+        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 51));
@@ -155,7 +165,7 @@ public class QuanLyBanHang extends javax.swing.JFrame {
         jpnKhachHang.setLayout(jpnKhachHangLayout);
         jpnKhachHangLayout.setHorizontalGroup(
             jpnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlbKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+            .addComponent(jlbKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jpnKhachHangLayout.setVerticalGroup(
             jpnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,11 +203,11 @@ public class QuanLyBanHang extends javax.swing.JFrame {
         jpnNhanVien.setLayout(jpnNhanVienLayout);
         jpnNhanVienLayout.setHorizontalGroup(
             jpnNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlbNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jlbNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jpnNhanVienLayout.setVerticalGroup(
             jpnNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jlbNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+            .addComponent(jlbNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         javax.swing.GroupLayout jpnMenuLayout = new javax.swing.GroupLayout(jpnMenu);
@@ -214,13 +224,12 @@ public class QuanLyBanHang extends javax.swing.JFrame {
                         .addComponent(jpnKhuyenMai, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jpnSanPham, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jpnBanHang, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jpnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(vaiTrojLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nhanVienJLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpnMenuLayout.createSequentialGroup()
-                            .addGap(8, 8, 8)
-                            .addComponent(jLabel5))))
-                .addContainerGap(10, Short.MAX_VALUE))
+                    .addComponent(vaiTrojLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nhanVienJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpnMenuLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel5)))
+                .addGap(10, 10, 10))
         );
         jpnMenuLayout.setVerticalGroup(
             jpnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,7 +252,7 @@ public class QuanLyBanHang extends javax.swing.JFrame {
                 .addComponent(jpnThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jpnNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jpnView.setBackground(new java.awt.Color(255, 255, 255));
@@ -260,6 +269,84 @@ public class QuanLyBanHang extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jToolBar1.setBackground(new java.awt.Color(255, 255, 255));
+        jToolBar1.setRollover(true);
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Exit.png"))); // NOI18N
+        jButton1.setText("Đăng xuất");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Refresh.png"))); // NOI18N
+        jButton2.setText("Đổi mật khẩu");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton2);
+
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Stop.png"))); // NOI18N
+        jButton3.setText("Kết thúc");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton3);
+
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/milk (1).png"))); // NOI18N
+        jButton4.setText("Sản phẩm");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton4);
+
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 0, 0));
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Users.png"))); // NOI18N
+        jButton5.setText("Khách hàng");
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton5);
+
         javax.swing.GroupLayout jpnDanhMucLayout = new javax.swing.GroupLayout(jpnDanhMuc);
         jpnDanhMuc.setLayout(jpnDanhMucLayout);
         jpnDanhMucLayout.setHorizontalGroup(
@@ -267,18 +354,20 @@ public class QuanLyBanHang extends javax.swing.JFrame {
             .addGroup(jpnDanhMucLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpnView, javax.swing.GroupLayout.DEFAULT_SIZE, 886, Short.MAX_VALUE))
+            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jpnDanhMucLayout.setVerticalGroup(
             jpnDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpnDanhMucLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpnDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpnDanhMucLayout.createSequentialGroup()
                         .addComponent(jpnMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addComponent(jpnView, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)))
+                    .addComponent(jpnView, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -298,6 +387,52 @@ public class QuanLyBanHang extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+                int confirmed = javax.swing.JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc chắn muốn đóng chương trình?", "Xác nhận thoát",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == javax.swing.JOptionPane.YES_OPTION) {
+            this.dispose(); // Đóng cửa sổ hiện tại
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        controllerCH.setViewMenu("SanPham", jpnSanPham, jlbSanPham);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        ChuyenManHinhController controllerCH = new ChuyenManHinhController(jpnView);
+        controllerCH.setViewMenu("KhachHang", jpnKhachHang, jlbKhachHang);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int confirmed = javax.swing.JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirmed == javax.swing.JOptionPane.YES_OPTION) {
+            // Đặt lại thông tin nhân viên
+            Login.crurrentNhanVienmodel = null;
+
+            // Hiển thị lại giao diện đăng nhập (giả sử bạn có một lớp LoginFrame để hiển thị)
+            Login loginFrame = new Login(); // Tạo một đối tượng mới của LoginFrame
+            loginFrame.setVisible(true); // Hiển thị cửa sổ đăng nhập
+            this.dispose(); // Đóng cửa sổ hiện tại
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        new ResetPwJpanel().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,7 +470,14 @@ public class QuanLyBanHang extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel jlbBanHang;
     private javax.swing.JLabel jlbKhachHang;
     private javax.swing.JLabel jlbKhuyenMai;

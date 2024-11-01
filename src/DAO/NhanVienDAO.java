@@ -182,4 +182,60 @@ public class NhanVienDAO implements DAOinterface<NhanVienmodel> {
         }
         return listNhanVien;
     }
+
+    public int demSoLuongNhanVien() {
+        int soLuongNhanVien = 0;
+        try (Connection con = JDBCconnect.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM nhanvien";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                soLuongNhanVien = rs.getInt(1); // Lấy giá trị đếm từ cột đầu tiên
+            }
+            System.out.println("Số lượng nhân viên: " + soLuongNhanVien);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return soLuongNhanVien;
+    }
+    public String getStoredPassword(String username) {
+        String storedPassword = null;
+        String sql = "SELECT matkhau FROM nhanvien WHERE Ten = ?"; // Assuming 'Ten' is the username field
+
+        try (Connection con = JDBCconnect.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+             
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                storedPassword = rs.getString("matkhau"); // Get the stored hashed password
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return storedPassword; // Return the retrieved hashed password or null if not found
+    }
+
+    // Method to update the password for the given username
+    public boolean saveNewPassword(String username, String hashedPassword) {
+        int rowsUpdated = 0;
+        String sql = "UPDATE nhanvien SET matkhau = ? WHERE Ten = ?"; // Assuming 'Ten' is the username field
+
+        try (Connection con = JDBCconnect.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+             
+            pst.setString(1, hashedPassword); // Set the new hashed password
+            pst.setString(2, username); // Set the username condition
+
+            rowsUpdated = pst.executeUpdate(); // Execute the update
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return rowsUpdated > 0; // Return true if at least one row was updated
+    }
+
 }

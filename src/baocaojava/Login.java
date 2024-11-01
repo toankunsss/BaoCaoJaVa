@@ -1,5 +1,6 @@
 package baocaojava;
 
+import controller.MaHoa;
 import controller.NhanVienController;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public static NhanVienmodel crurrentNhanVienmodel;
+    MaHoa mk;
 
     public Login() {
         initComponents();
@@ -24,6 +26,8 @@ public class Login extends javax.swing.JFrame {
         Image icon = new ImageIcon(this.getClass().getResource("/picture/Picture1.png")).getImage();
         this.setIconImage(icon);
         this.setLocationRelativeTo(null);
+        mk=new MaHoa();
+      
     }
 
     /**
@@ -211,8 +215,9 @@ public class Login extends javax.swing.JFrame {
         boolean isLoginSuccessful = false;
 
         for (NhanVienmodel nhanVienmodelfr : nhanVienmodels) {
+  
             String passwordInput = new String(edtPasswordTextField.getPassword());
-            if (edtUsetTextField.getText().equals(nhanVienmodelfr.getMaNv()) && passwordInput.equals(nhanVienmodelfr.getMatKhau())) {
+            if (edtUsetTextField.getText().equals(nhanVienmodelfr.getMaNv()) && MaHoa.toSHAL(passwordInput).equals(nhanVienmodelfr.getMatKhau())) {
                 crurrentNhanVienmodel = nhanVienmodelfr;  
                 isLoginSuccessful = true;
                 break; 

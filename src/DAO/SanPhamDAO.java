@@ -6,10 +6,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import model.sanpham;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -18,6 +19,7 @@ import java.sql.ResultSet;
 public class SanPhamDAO implements DAOinterface<sanpham> {
 
     private static SanPhamDAO instance;
+    private Map<String, Integer> soldQuantityMap = new HashMap<>();
 
     public SanPhamDAO() {
 
@@ -206,4 +208,55 @@ public class SanPhamDAO implements DAOinterface<sanpham> {
         return tenSua;
     }
 
+    public int laySoLuongSanPham() {
+        int soLuongSanPham = 0;
+        String sql = "SELECT COUNT(*) AS SoLuong FROM sua";
+        try (Connection con = JDBCconnect.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                soLuongSanPham = rs.getInt("SoLuong");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return soLuongSanPham;
+    }
+
+    public int updateQuantity(String maSP, int soLuong) {
+        int ketQua = 0;
+        try (Connection con = JDBCconnect.getConnection()) {
+            // Lấy số lượng hiện tại của sản phẩm
+            String sqlSelect = "SELECT SoLuong FROM sua WHERE MaSua = ?";
+            PreparedStatement pstSelect = con.prepareStatement(sqlSelect);
+            pstSelect.setString(1, maSP);
+            ResultSet rs = pstSelect.executeQuery();
+
+            if (rs.next()) {
+                int currentQuantity = rs.getInt("SoLuong");
+                int newQuantity = currentQuantity - soLuong; // Tính số lượng mới
+
+                // Cập nhật số lượng mới vào cơ sở dữ liệu
+                String sqlUpdate = "UPDATE sua SET SoLuong = ? WHERE MaSua = ?";
+                PreparedStatement pstUpdate = con.prepareStatement(sqlUpdate);
+                pstUpdate.setInt(1, newQuantity);
+                pstUpdate.setString(2, maSP);
+
+                ketQua = pstUpdate.executeUpdate();
+                System.out.println("Bạn đã thực thi: " + sqlUpdate + maSP);
+                System.out.println("Có " + ketQua + " dòng bị thay đổi.");
+
+                // Update the cumulative sold quantity in the map
+                soldQuantityMap.put(maSP, soldQuantityMap.getOrDefault(maSP, 0) + soLuong);
+                System.out.println("Tổng số lượng đã bán của sản phẩm " + maSP + ": " + soldQuantityMap.get(maSP));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return ketQua;
+    }
+
+    // Method to retrieve the cumulative sold quantity for a given product
+    public int getSoldQuantity(String maSP) {
+        return soldQuantityMap.getOrDefault(maSP, 0);
+    }
 }

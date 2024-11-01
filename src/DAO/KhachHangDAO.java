@@ -32,7 +32,7 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
         int ketQua = 0;
         try (Connection con = JDBCconnect.getConnection()) {
             String sql = "INSERT INTO khachhang (MaKH, Ten, GioiTinh, DiaChi, SoDT, TongChiTieu, Diem) "
-                       + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getMaKh());
             pst.setString(2, t.getTenKh());
@@ -157,8 +157,8 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
                 kh.setGioiTinh(rs.getString("GioiTinh"));
                 kh.setDiaChi(rs.getString("DiaChi"));
                 kh.setSoDt(rs.getInt("SoDT"));
-                kh.setTongChiTieu(rs.getDouble("TongChiTieu")); 
-                kh.setDiem(rs.getDouble("Diem")); 
+                kh.setTongChiTieu(rs.getDouble("TongChiTieu"));
+                kh.setDiem(rs.getDouble("Diem"));
                 listKhachHang.add(kh);
             }
         } catch (SQLException ex) {
@@ -166,4 +166,22 @@ public class KhachHangDAO implements DAOinterface<KhachHangmodel> {
         }
         return listKhachHang;
     }
+
+    public int demSoLuongKhachHang() {
+        int soLuongKhachHang = 0;
+        try (Connection con = JDBCconnect.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM khachhang";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                soLuongKhachHang = rs.getInt(1); // Lấy giá trị đếm từ cột đầu tiên
+            }
+            System.out.println("Số lượng khách hàng: " + soLuongKhachHang);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return soLuongKhachHang;
+    }
+
 }

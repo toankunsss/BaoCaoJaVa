@@ -14,6 +14,7 @@ import model.NhaCungCap;
  * @author Toan
  */
 public class NhaCCDAO implements DAOinterface<NhaCungCap> {
+
     private static NhaCCDAO instance;
 
     public NhaCCDAO() {
@@ -26,6 +27,7 @@ public class NhaCCDAO implements DAOinterface<NhaCungCap> {
         }
         return instance;
     }
+
     @Override
     public int them(NhaCungCap ncc) {
         int ketqua = 0;
@@ -134,7 +136,7 @@ public class NhaCCDAO implements DAOinterface<NhaCungCap> {
     public ArrayList<NhaCungCap> selectByCondition(String condition) {
         ArrayList<NhaCungCap> nhaCungCaps = new ArrayList<>();
         try (Connection con = JDBCconnect.getConnection()) {
-            String sql = "SELECT * FROM nhacungcap where="+condition;
+            String sql = "SELECT * FROM nhacungcap where=" + condition;
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -152,18 +154,37 @@ public class NhaCCDAO implements DAOinterface<NhaCungCap> {
         }
         return nhaCungCaps;
     }
+
     public ArrayList<String> layDanhSachTenNCC() {
-    ArrayList<String> tenNCCList = new ArrayList<>();
-    try (Connection con = JDBCconnect.getConnection()) {
-        String sql = "SELECT TenNCCl FROM nhacungcap";
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            tenNCCList.add(rs.getString("TenNCCl"));
+        ArrayList<String> tenNCCList = new ArrayList<>();
+        try (Connection con = JDBCconnect.getConnection()) {
+            String sql = "SELECT TenNCCl FROM nhacungcap";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                tenNCCList.add(rs.getString("TenNCCl"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return tenNCCList;
     }
-    return tenNCCList;
-}
+
+    public int demSoLuongNhaCungCap() {
+        int soLuongNhaCungCap = 0;
+        try (Connection con = JDBCconnect.getConnection()) {
+            String sql = "SELECT COUNT(*) FROM nhacungcap";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                soLuongNhaCungCap = rs.getInt(1); // Lấy giá trị đếm từ cột đầu tiên
+            }
+            System.out.println("Số lượng nhà cung cấp: " + soLuongNhaCungCap);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return soLuongNhaCungCap;
+    }
+
 }

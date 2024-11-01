@@ -41,10 +41,12 @@ public class NhanVienController {
         return danhSachNhanVien.stream().anyMatch(nv -> nv.getMaNv().equals(maNv));
     }
 
-    public ArrayList<NhanVienmodel> selectByCondition(String condition){
-            return nhanVienDAO.selectByCondition(condition);
+    public ArrayList<NhanVienmodel> selectByCondition(String condition) {
+        return nhanVienDAO.selectByCondition(condition);
     }
 
-
+    public int GetSoLuong() {
+        return nhanVienDAO.demSoLuongNhanVien();
+    }
 
 }

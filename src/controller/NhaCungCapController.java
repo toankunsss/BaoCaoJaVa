@@ -39,5 +39,8 @@ public class NhaCungCapController {
     public ArrayList<NhaCungCap> SelectByCondition(String t){
         return nccdao.selectByCondition(t);
     }
+    public int getSoLuongNCC(){
+        return nccdao.demSoLuongNhaCungCap();
+    }
 
 }

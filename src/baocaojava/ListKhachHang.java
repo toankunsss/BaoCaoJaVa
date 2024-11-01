@@ -156,6 +156,10 @@ public class ListKhachHang extends javax.swing.JPanel {
         diaChiTextField = new javax.swing.JTextField();
         soDtTextField = new javax.swing.JTextField();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+        setForeground(new java.awt.Color(0, 0, 0));
+
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Họ tên nhân viên:");
 
         maKhTextFiled.setEnabled(false);
@@ -165,17 +169,23 @@ public class ListKhachHang extends javax.swing.JPanel {
             }
         });
 
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Giới tính");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("QUẢN LÝ KHÁCH HÀNG");
 
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Quê quán:");
 
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Điểm:");
 
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Tổng Chi tiêu:");
 
+        khachHangTable.setBackground(new java.awt.Color(255, 255, 255));
         khachHangTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -192,8 +202,11 @@ public class ListKhachHang extends javax.swing.JPanel {
 
         diemTextField.setEnabled(false);
 
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Số điện thoại:");
 
+        themBtn.setBackground(new java.awt.Color(255, 102, 51));
+        themBtn.setForeground(new java.awt.Color(0, 0, 0));
         themBtn.setText("Thêm");
         themBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +215,7 @@ public class ListKhachHang extends javax.swing.JPanel {
         });
 
         buttonGroup1.add(namRadioButton);
+        namRadioButton.setForeground(new java.awt.Color(0, 0, 0));
         namRadioButton.setText("Nam");
         namRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,6 +223,8 @@ public class ListKhachHang extends javax.swing.JPanel {
             }
         });
 
+        capnhatJbtn.setBackground(new java.awt.Color(255, 102, 51));
+        capnhatJbtn.setForeground(new java.awt.Color(0, 0, 0));
         capnhatJbtn.setText("Cập nhật");
         capnhatJbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,8 +233,11 @@ public class ListKhachHang extends javax.swing.JPanel {
         });
 
         buttonGroup1.add(nuRadioButton);
+        nuRadioButton.setForeground(new java.awt.Color(0, 0, 0));
         nuRadioButton.setText("Nữ");
 
+        deleteJbtn.setBackground(new java.awt.Color(255, 102, 51));
+        deleteJbtn.setForeground(new java.awt.Color(0, 0, 0));
         deleteJbtn.setText("Xóa");
         deleteJbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,10 +245,14 @@ public class ListKhachHang extends javax.swing.JPanel {
             }
         });
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 255)));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Nhập từ khóa cần tìm:");
 
+        timKiemBtn.setBackground(new java.awt.Color(255, 102, 51));
+        timKiemBtn.setForeground(new java.awt.Color(0, 0, 0));
         timKiemBtn.setText("Tìm kiếm");
         timKiemBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -261,6 +284,8 @@ public class ListKhachHang extends javax.swing.JPanel {
                 .addGap(20, 20, 20))
         );
 
+        refreshjbtn.setBackground(new java.awt.Color(255, 102, 51));
+        refreshjbtn.setForeground(new java.awt.Color(0, 0, 0));
         refreshjbtn.setText("Làm mới");
         refreshjbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,6 +293,7 @@ public class ListKhachHang extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Mã khách hàng");
 
         soDtTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -323,7 +349,7 @@ public class ListKhachHang extends javax.swing.JPanel {
                                                         .addGap(18, 18, 18)
                                                         .addComponent(nuRadioButton))))
                                             .addComponent(jLabel9))
-                                        .addGap(94, 94, 94)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3)
                                             .addComponent(jLabel4)
@@ -366,7 +392,7 @@ public class ListKhachHang extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(diaChiTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -377,8 +403,8 @@ public class ListKhachHang extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addGap(22, 22, 22))
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -14,6 +14,7 @@ import model.phieuModel;
  * @author Toan
  */
 public class ChiTietPhieuNhapDAO implements DAOinterface<ChiTieuPhieumodel> {
+
     private static ChiTietPhieuNhapDAO instance;
 
     public ChiTietPhieuNhapDAO() {
@@ -25,7 +26,6 @@ public class ChiTietPhieuNhapDAO implements DAOinterface<ChiTieuPhieumodel> {
         }
         return instance;
     }
-
 
     @Override
     public int them(ChiTieuPhieumodel t) {
@@ -155,7 +155,7 @@ public class ChiTietPhieuNhapDAO implements DAOinterface<ChiTieuPhieumodel> {
     public ArrayList<ChiTieuPhieumodel> selectByCondition(String condition) {
         ArrayList<ChiTieuPhieumodel> dsChiTietPhieu = new ArrayList<>();
         try (Connection con = JDBCconnect.getConnection()) {
-            String sql = "SELECT * FROM chitietphieunhap WHERE MaPN= ?" ;
+            String sql = "SELECT * FROM chitietphieunhap WHERE MaPN= ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, condition);
             ResultSet rs = pst.executeQuery();
@@ -175,4 +175,40 @@ public class ChiTietPhieuNhapDAO implements DAOinterface<ChiTieuPhieumodel> {
         return dsChiTietPhieu;
     }
 
+    public int layTongSoLuongTheoMaPN(String maPN) {
+        int tongSoLuong = 0;
+        try (Connection con = JDBCconnect.getConnection()) {
+            String sql = "SELECT SUM(SoLuong) AS TongSoLuong FROM chitietphieunhap WHERE MaPN = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, maPN);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                tongSoLuong = rs.getInt("TongSoLuong");
+            }
+            System.out.println("Tổng số lượng sản phẩm nhập theo MaPN: " + maPN + " là " + tongSoLuong);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return tongSoLuong;
+    }
+
+    public int layTongSoLuongTheoMaSP(String maSua) {
+        int tongSoLuong = 0;
+        String sql = "SELECT SUM(SoLuong) AS TongSoLuong FROM chitietphieunhap WHERE MaSua = ?";
+
+        try (Connection con = JDBCconnect.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setString(1, maSua);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                tongSoLuong = rs.getInt("TongSoLuong");
+            }
+            System.out.println("Tổng số lượng của sản phẩm với MaSua: " + maSua + " là " + tongSoLuong);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return tongSoLuong;
+    }
 }
