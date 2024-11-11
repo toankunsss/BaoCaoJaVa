@@ -26,13 +26,13 @@ public class QuanLyPhieu extends javax.swing.JPanel {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        danhSachPhieuNhapJpane1 = new baocaojava.danhSachPhieuNhapJpane();
         nhapHangJpane1 = new baocaojava.NhapHangJpane();
         nhaCungCapJpane1 = new baocaojava.NhaCungCapJpane();
+        danhSachPhieuNhapJpane1 = new baocaojava.danhSachPhieuNhapJpane();
 
-        jTabbedPane1.addTab("tab1", danhSachPhieuNhapJpane1);
         jTabbedPane1.addTab("tab2", nhapHangJpane1);
         jTabbedPane1.addTab("tab3", nhaCungCapJpane1);
+        jTabbedPane1.addTab("tab1", danhSachPhieuNhapJpane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

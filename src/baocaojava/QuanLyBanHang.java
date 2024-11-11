@@ -12,10 +12,11 @@ import model.DanhMuc;
  */
 public class QuanLyBanHang extends javax.swing.JFrame {
 
-    ChuyenManHinhController controllerCH; 
-            /**
-             * Creates new form QuanLyBanHang
-             */
+    ChuyenManHinhController controllerCH;
+
+    /**
+     * Creates new form QuanLyBanHang
+     */
 
     public QuanLyBanHang() {
         initComponents();
@@ -390,14 +391,14 @@ public class QuanLyBanHang extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-                int confirmed = javax.swing.JOptionPane.showConfirmDialog(null,
+        int confirmed = javax.swing.JOptionPane.showConfirmDialog(null,
                 "Bạn có chắc chắn muốn đóng chương trình?", "Xác nhận thoát",
                 javax.swing.JOptionPane.YES_NO_OPTION);
 
         if (confirmed == javax.swing.JOptionPane.YES_OPTION) {
             this.dispose(); // Đóng cửa sổ hiện tại
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
